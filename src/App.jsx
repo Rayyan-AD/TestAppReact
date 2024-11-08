@@ -1,35 +1,85 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Header from "./components/Header";
+import Input from "./components/Input";
+import Button from "./components/Button";
+import UserTable from "./components/UserTable";
+import Landing from "./components/Landing";
 
 function App() {
-  const [count, setCount] = useState(9)
+  const [userInput, setUserInput] = useState([]); 
+  const [currentInput, setCurrentInput] = useState({ name: "", age: "" }); 
+  const [editIndex, setEditIndex] = useState(null)
+  const [isClicked, setIsClicked] = useState(false)
+
+  
+  const handleChange = (field, value) => {
+    setCurrentInput((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  
+  const handleAddUser = () => {
+    if (currentInput.name && currentInput.age) {
+      if(editIndex!== null){
+        setUserInput((prev)=>(
+          prev.map((user, i)=>(
+            i === editIndex ? currentInput : user
+          ))
+        ))
+        setCurrentInput({ name: "", age: "" })
+      }
+      else
+      {
+      setUserInput((prev) => [...prev, currentInput]);
+      setCurrentInput({ name: "", age: "" }); 
+      }
+      setEditIndex(null)
+    }
+  };
+  const handleDelete = (index)=>{
+    setUserInput((prev)=>prev.filter((_,i)=>(
+      i!==index
+    )))
+    
+  }
+  console.log(userInput)
+  const handleEdit = (index)=>{
+   setEditIndex(index)
+   setCurrentInput(userInput[index])
+  }
+
+  const handleIsClicked = ()=> {
+    setIsClicked(true)
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {isClicked ?
+      <div className=" bg-transparent text-center justify-center m-auto w-96 p-4 mt-20 rounded-sm">
+        <Header />
+        <Input
+          label="Name"
+          type="text"
+          value={currentInput.name}
+          handleChange={(e) => handleChange("name", e.target.value)}  
+        />
+        <Input
+          label="Age"
+          type="number"
+          value={currentInput.age}
+          handleChange={(e) => handleChange("age", e.target.value)}
+        />
+        <Button handleAddUser={handleAddUser}>{editIndex === null? "Add User": "Save" }</Button>
+        {userInput.length > 0 ? <UserTable userInput={userInput} handleDelete={handleDelete} handleEdit={handleEdit}/> : null }
+      </div> 
+      :
+      <Landing handleIsClicked={handleIsClicked}/>
+}
+      
     </>
-  )
+  );
 }
 
-export default App
+export default App;
