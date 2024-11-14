@@ -8,7 +8,7 @@ const Input = ({ label, type, value, handleChange }) => {
         <input
           className="border-b-2 border-b-black border-transparent
            focus:border-b-black focus:outline-none rounded-sm w-full
-            max-w-xs justify-center bg-transparent text-white"
+            max-w-xs justify-center bg-transparent text-black"
           type={type}
           required
           value={value} 
