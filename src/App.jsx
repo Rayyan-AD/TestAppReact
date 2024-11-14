@@ -10,7 +10,8 @@ function App() {
   const [currentInput, setCurrentInput] = useState({ name: "", age: "" }); 
   const [editIndex, setEditIndex] = useState(null)
   const [isClicked, setIsClicked] = useState(false)
-
+  const [error, setError] = useState('')
+ 
   
   const handleChange = (field, value) => {
     setCurrentInput((prev) => ({
@@ -21,6 +22,11 @@ function App() {
 
   
   const handleAddUser = () => {
+    if(!currentInput.name || !currentInput.age){
+      setError('Please enter a valid value!')
+      return
+    }
+    setError('')
     if (currentInput.name && currentInput.age) {
       if(editIndex!== null){
         setUserInput((prev)=>(
@@ -54,11 +60,15 @@ function App() {
     setIsClicked(true)
   }
 
+ 
+
   return (
     <>
       {isClicked ?
-      <div className=" bg-transparent text-center justify-center m-auto w-96 p-4 mt-20 rounded-sm">
+      <div className="flex flex-col">
+      <div className="flex flex-col bg-transparent items-center text-center justify-center m-auto w-96 p-4  rounded">
         <Header />
+        {error && <p className="text-red-600">{error}</p>}
         <Input
           label="Name"
           type="text"
@@ -71,11 +81,14 @@ function App() {
           value={currentInput.age}
           handleChange={(e) => handleChange("age", e.target.value)}
         />
-        <Button handleAddUser={handleAddUser}>{editIndex === null? "Add User": "Save" }</Button>
-        {userInput.length > 0 ? <UserTable userInput={userInput} handleDelete={handleDelete} handleEdit={handleEdit}/> : null }
+        <Button handleAddUser={handleAddUser}>{editIndex === null? "Add User": "Update" }</Button>
+        </div>
+        <div className="">
+         {userInput.length > 0 ? <UserTable userInput={userInput} handleDelete={handleDelete} handleEdit={handleEdit}/> : null } 
+        </div>
       </div> 
       :
-      <Landing handleIsClicked={handleIsClicked}/>
+      <Landing handleIsClicked={handleIsClicked} />
 }
       
     </>
