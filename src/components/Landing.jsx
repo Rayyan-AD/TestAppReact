@@ -3,7 +3,7 @@ import React from 'react';
 const Landing = ({ handleIsClicked }) => {
   return (
     <div className='w-full bg-cover bg-center bg-[url("bg.jpg")] min-h-screen flex flex-col gap-10 items-center justify-center text-center px-4'>
-      <h1 className='text-5xl md:text-6xl lg:text-xl text-white font-extrabold drop-shadow-lg'>
+      <h1 className='text-7xl md:text-6xl lg:text-5xl text-white font-extrabold drop-shadow-lg'>
         Welcome to the Personal Bio Data Form
       </h1>
       <p className='text-lg md:text-xl lg:text-2xl text-gray-200 max-w-2xl font-light drop-shadow-sm'>

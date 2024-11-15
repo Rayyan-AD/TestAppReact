@@ -1,40 +1,47 @@
-import React from 'react'
+import React from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const UserTable = ({ userInput, handleDelete, handleEdit }) => {
   return (
-    <table className="mt-10 w-full max-w-lg mx-auto border-collapse mb-10 rounded">
-      <thead>
-        <tr className="bg-gray-800 border-b border-gray-600">
-          <th className="w-1/8 text-start text-white px-2 py-2">Index</th>
-          <th className="w-1/3 text-start text-white px-4 py-2">Name</th>
-          <th className="w-1/3 text-start text-white px-4 py-2">Age</th>
-          <th className="w-1/3 text-start text-white px-4 py-2">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {userInput.map((item, index) => (
-          <tr key={index} className="border-b border-gray-300 bg-white">
-            <td className="text-start px-2 py-2 text-black">{index + 1}</td>
-            <td className="text-start px-4 py-2 text-black">{item.name}</td>
-            <td className="text-start px-4 py-2 text-black">{item.age}</td>
-            <td className="text-start px-4 py-2">
-              <div className="flex space-x-3">
-              <FaEdit
-                  className="text-blue-500 cursor-pointer"
-                  onClick={() => handleEdit(index)}  
-                />
-                <FaTrash
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => handleDelete(index)}  
-                />
-              </div>
-            </td>
+    <div className="mt-10 w-full max-w-4xl mx-auto overflow-hidden rounded-xl shadow-2xl bg-white">
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="bg-gray-700 text-white">
+            <th className="w-1/12 text-start px-6 py-3 font-semibold">Index</th>
+            <th className="w-1/3 text-start px-6 py-3 font-semibold">Name</th>
+            <th className="w-1/3 text-start px-6 py-3 font-semibold">Age</th>
+            <th className="w-1/4 text-start px-6 py-3 font-semibold">Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  )
-}
+        </thead>
+        <tbody>
+          {userInput.map((item, index) => (
+            <tr
+              key={index}
+              className={`border-b last:border-none ${
+                index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
+              } hover:bg-gray-200 transition-all duration-200`}
+            >
+              <td className="text-start px-6 py-3 text-gray-800">{index + 1}</td>
+              <td className="text-start px-6 py-3 text-gray-800">{item.name}</td>
+              <td className="text-start px-6 py-3 text-gray-800">{item.age}</td>
+              <td className="text-start px-6 py-3">
+                <div className="flex space-x-3">
+                  <FaEdit
+                    className="text-blue-500 cursor-pointer hover:text-blue-700 transition-all"
+                    onClick={() => handleEdit(index)}
+                  />
+                  <FaTrash
+                    className="text-red-500 cursor-pointer hover:text-red-700 transition-all"
+                    onClick={() => handleDelete(index)}
+                  />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
-export default UserTable
+export default UserTable;
